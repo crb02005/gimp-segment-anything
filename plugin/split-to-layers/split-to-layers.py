@@ -20,6 +20,15 @@ python_location = config["python"]
 import tempfile
 import os
 
+def get_selection_bounds(image):
+    if pdb.gimp_selection_is_empty(image):
+        gimp.message("There is no selection")
+        return (-1,-1,-1,-1)
+    else:
+        bounds = pdb.gimp_selection_bounds(image)
+        print(bounds)
+        return (bounds[1], bounds[2], bounds[3], bounds[4])
+
 def split_to_layers(image, layer):
 
     layer = pdb.gimp_image_get_active_layer(image)
@@ -35,7 +44,10 @@ def split_to_layers(image, layer):
     gimp.message("Layer saved as temporary file: {}".format(temp_file.name))
 
     print("Subprocessing out:",script_file,temp_file.name)
-    result = subprocess.check_output([python_location, script_file, temp_file.name])
+
+    [x1, y1, x2, y2] = get_selection_bounds(image)
+
+    result = subprocess.check_output([python_location, script_file, temp_file.name, str(x1), str(y1), str(x2), str(y2)])
     print("getting result", result)
     data = json.loads(result)
     masks = data["data"]
