@@ -44,7 +44,10 @@ In my case I put it here:
 C:\MLModels\SegmentAnything
 ```
 
-
+I also put my OPEN_CV models here:
+```
+C:\MLModels\OPEN_CV
+```
 
 
 update the sam.py with the path to checkpoint.
@@ -63,6 +66,9 @@ running gimp in verbose mode to get the logs
 ```ps
 ."C:\Users\$env:USERNAME\AppData\Local\Programs\GIMP 2\bin\gimp-2.10.exe" --verbose
 ```
+
+There is a config.json that has the python location, and the script location.
+
 
 The split-to-layers.py is python 2 7 and calls out to the sam.py python3 which calls the facebook meta ai segment anything model
 

@@ -29,7 +29,13 @@ def get_selection_bounds(image):
         print(bounds)
         return (bounds[1], bounds[2], bounds[3], bounds[4])
 
-def split_to_layers(image, layer):
+def split_to_layers_no_face(image, layer):
+    return split_to_layers(image, layer, False)
+
+def split_to_layers_face(image, layer):
+    return split_to_layers(image, layer, True)
+
+def split_to_layers(image, layer, face):
 
     layer = pdb.gimp_image_get_active_layer(image)
     temp_file = tempfile.NamedTemporaryFile(suffix=".png", delete=False)
@@ -43,17 +49,43 @@ def split_to_layers(image, layer):
 
     gimp.message("Layer saved as temporary file: {}".format(temp_file.name))
 
-    print("Subprocessing out:",script_file,temp_file.name)
+    gimp.message("Subprocessing out: %s %s " % (script_file,temp_file.name))
 
     [x1, y1, x2, y2] = get_selection_bounds(image)
 
-    result = subprocess.check_output([python_location, script_file, temp_file.name, str(x1), str(y1), str(x2), str(y2)])
-    print("getting result", result)
+    #result = subprocess.check_output([python_location, script_file, temp_file.name, str(x1), str(y1), str(x2), str(y2)])
+    result = None
+    try:
+        result = subprocess.check_output([python_location, script_file, temp_file.name, str(x1), str(y1), str(x2), str(y2), str(face)])
+    except WindowsError as e:
+        if e.errno == 5:
+            gimp.message("Error: Access is denied to file: %s" % e.filename)
+        else:
+            gimp.message("Error:%s" % e.strerror)
+
+    if not result:
+        return
+
+    try:
+        os.remove(temp_file.name)
+        gimp.message("File %s deleted successfully." % temp_file.name)
+    except OSError as e:
+        gimp.message("Error: %s - %s." % (e.filename, e.strerror))
+
+    gimp.message("getting results")
     data = json.loads(result)
     masks = data["data"]
     i = 0
     cut_layer = None
+
+    mask_len = len(masks)
+    gimp.message("results 0 of %d" % mask_len)
+
+    mask_index = 0
     for mask_points in masks:
+        mask_index = mask_index+1
+        gimp.message("results %d of %d" % (mask_index, mask_len))
+
         pdb.gimp_image_select_polygon(
             image, #GimpImage*
             CHANNEL_OP_REPLACE,#operation
@@ -83,7 +115,7 @@ def split_to_layers(image, layer):
     gimp.displays_flush()
 
 register(
-    "python_fu_segments_to_layers",
+    "python_fu_segments_to_layers_no_face",
     "Split To Layers",
     "Split an image into layers from segments",
     "Carl Burks wrapping github.com/facebookresearch/segment-anything",
@@ -93,6 +125,19 @@ register(
     "*",
     [],
     [],
-    split_to_layers)
+    split_to_layers_no_face)
+
+register(
+    "python_fu_segments_to_layers_face",
+    "Split To Layers Faces",
+    "Split an image into layers from segments",
+    "Carl Burks wrapping github.com/facebookresearch/segment-anything",
+    "Carl Burks wrapping github.com/facebookresearch/segment-anything",
+    "2023",
+    "<Image>/Image/Split To Layers Faces",#"<Image>/Filters/Selection/Split To Layers",
+    "*",
+    [],
+    [],
+    split_to_layers_face)
 
 main()
