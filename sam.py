@@ -165,7 +165,6 @@ else:
 response = {
     "file": filename,
     "data": [_ for _ in results]
-    "data": [_ for _ in results]
 }
 
 
