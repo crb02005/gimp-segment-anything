@@ -75,3 +75,21 @@ Citing SAM or SA-1B
   year={2023}
 }
 ```
+
+### Doesn't work
+
+on linux fix the permisions
+try moving the pluginrc so it 
+
+pyenv install 2.7.18
+
+```
+# Load pyenv automatically by appending
+# the following to 
+~/.bash_profile if it exists, otherwise ~/.profile (for login shells)
+and ~/.bashrc (for interactive shells) :
+
+export PYENV_ROOT="$HOME/.pyenv"
+command -v pyenv >/dev/null || export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init -)"
+```
