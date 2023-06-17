@@ -1,8 +1,6 @@
 from gimpfu import *
 import os
 import json
-#import pkg_resources
-#import pip
 import sys
 import subprocess
 
@@ -58,11 +56,12 @@ def split_to_layers(image, layer, face):
     try:
         result = subprocess.check_output([python_location, script_file, temp_file.name, str(x1), str(y1), str(x2), str(y2), str(face)])
     except:
-        # if e.errno == 5:
-        #     gimp.message("Error: Access is denied to file: %s" % e.filename)
-        # else:
         e = sys.exc_info()[0]
-        gimp.message("Error:%s" % e.strerror)
+    # except WindowsError as e:
+    #     if e.errno == 5:
+    #         gimp.message("Error: Access is denied to file: %s" % e.filename)
+    #     else:
+    #         gimp.message("Error:%s" % e.strerror)
 
     if not result:
         return
