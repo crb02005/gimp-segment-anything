@@ -1,4 +1,4 @@
 {
-    "checkpoint_location":"/home/bob/MLModels/SegmentAnything/sam_vit_h_4b8939.pth",
-    "face_cascade_location":"/home/bob/MLModels/OPEN_CV/haarcascade_frontalface_default.xml"
+    "checkpoint_location":"C:/MLModels/SegmentAnything/sam_vit_h_4b8939.pth",
+    "face_cascade_location":"C:/MLModels/OPEN_CV/haarcascade_frontalface_default.xml"
 }

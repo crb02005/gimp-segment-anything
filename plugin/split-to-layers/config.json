@@ -11,6 +11,6 @@
         "python":"C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.11_3.11.1008.0_x64__qbz5n2kfra8p0\\python3.11.exe",
         "script":"C:\\Source\\gimp-segment-anything\\sam.py"
     },
-    "script":"C:\\Source\\gimp-segment-anything\\sam.py",
-    "python":"C:\\Program Files\\WindowsApps\\PythonSoftwareFoundation.Python.3.10_3.10.3056.0_x64__qbz5n2kfra8p0\\python3.10.exe"
+    "script":"C:\\github\\gimp-segment-anything\\sam.py",
+    "python":"C:\\Users\\crb02\\AppData\\Local\\Microsoft\\WindowsApps\\python3.11.exe"
 }

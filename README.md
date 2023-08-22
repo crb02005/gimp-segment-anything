@@ -52,6 +52,16 @@ C:\MLModels\OPEN_CV
 
 update the sam.py with the path to checkpoint.
 
+update the config to point to your sam.py and your python instance
+
+```
+{
+     "script":"C:\\github\\gimp-segment-anything\\sam.py",
+    "python":"C:\\Users\\<YOUR USER HERE>\\AppData\\Local\\Microsoft\\WindowsApps\\python3.11.exe"
+}
+```
+
+
 
 create a pluggin like the hello_world.py provided.
 
@@ -69,6 +79,11 @@ running gimp in verbose mode to get the logs
 
 There is a config.json that has the python location, and the script location.
 
+If it doesn't work that is the first place to start looking.
+
+if you change the file rerun the copy pluggin.
+
+Depending on Windows vs Linux you might need different error handling. In the future if there is interest I might code it, but if not anyone can just fork the repo and do it themselves.
 
 The split-to-layers.py is python 2 7 and calls out to the sam.py python3 which calls the facebook meta ai segment anything model
 

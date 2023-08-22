@@ -52,16 +52,20 @@ def split_to_layers(image, layer, face):
     [x1, y1, x2, y2] = get_selection_bounds(image)
 
     #result = subprocess.check_output([python_location, script_file, temp_file.name, str(x1), str(y1), str(x2), str(y2)])
+    print(script_file, temp_file.name)
     result = None
     try:
+        print("Using python at %s " % python_location)
         result = subprocess.check_output([python_location, script_file, temp_file.name, str(x1), str(y1), str(x2), str(y2), str(face)])
-    except:
-        e = sys.exc_info()[0]
-    # except WindowsError as e:
-    #     if e.errno == 5:
-    #         gimp.message("Error: Access is denied to file: %s" % e.filename)
-    #     else:
-    #         gimp.message("Error:%s" % e.strerror)
+    # except:
+    #     e = sys.exc_info()[0]
+    except WindowsError as e:
+        if e.errno == 5:
+            gimp.message("Error: Access is denied to file: %s" % e.filename)
+            print(script_file, temp_file.name, e.filename)
+        else:
+            gimp.message("Error:%s" % e.strerror)
+            print(script_file, temp_file.name, e)
 
     if not result:
         return
